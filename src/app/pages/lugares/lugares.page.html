@@ -1,0 +1,47 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-button>
+        <ion-icon name="airplane"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Lugares</ion-title>
+    <ion-buttons slot="end">
+      <ion-button>
+        <ion-icon name="globe"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-grid>
+    <ion-row>
+      <ion-col size="6" *ngFor="let lugar of lugares" (click)="verDetalle(lugar.id)">
+        <ion-card>
+          <img [src]="lugar.imagen" />
+          <ion-card-header>
+            <ion-card-title>{{ lugar.titulo }}</ion-card-title>
+          </ion-card-header>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button (click)="abrirModal()">
+      <ion-icon name="add-outline"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+  <h2>Componente 2 - List</h2>
+
+  <ion-list>
+    <ion-item *ngFor="let lugar of lugares" (click)="verDetalle(lugar.id)">
+      <ion-thumbnail>
+        <img [src]="lugar?.imagen" />
+      </ion-thumbnail>
+      <ion-label style="margin-left: 10px;">{{lugar.titulo}}</ion-label>
+    </ion-item>
+  </ion-list>
+
+</ion-content>

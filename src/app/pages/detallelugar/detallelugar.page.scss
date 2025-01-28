@@ -1,0 +1,69 @@
+.chip-custom {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1rem;
+    background-color: #333;
+    /* Fondo más oscuro */
+    border-radius: 12px;
+    /* Bordes redondeados */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    /* Sombra sutil para resaltar */
+    width: 100%;
+}
+
+.chip-content {
+    text-align: center;
+    width: 100%;
+}
+
+.avatar-custom {
+    width: 60%;
+    max-width: 200px;
+    /* Limita el tamaño máximo */
+    height: auto;
+    margin: auto;
+    aspect-ratio: 1 / 1;
+    /* Mantener una proporción 1:1 para un círculo perfecto */
+    border-radius: 50%;
+    /* Asegura la forma redonda */
+    overflow: hidden;
+    margin-bottom: 1rem;
+    /* Espaciado debajo de la imagen */
+}
+
+.avatar-custom img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    /* Rellenar el contenedor sin deformación */
+    display: block;
+}
+
+.comments-container {
+    width: 100%;
+}
+
+.custom-comment-item {
+    --padding-start: 0;
+    --inner-padding-end: 0;
+    background: rgba(255, 255, 255, 0.05);
+    /* Fondo sutil para comentarios */
+    border-radius: 8px;
+    /* Bordes redondeados */
+    margin-bottom: 0.5rem;
+    padding: 0.5rem;
+}
+
+.custom-comment-item ion-label h2 {
+    font-size: 1rem;
+    font-weight: bold;
+    margin: 0;
+    color: #fff;
+}
+
+.custom-comment-item ion-label p {
+    font-size: 0.9rem;
+    margin: 0;
+    color: #aaa;
+}
