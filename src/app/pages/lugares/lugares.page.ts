@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, LoadingController, IonToolbar, IonButtons, IonButton, IonIcon, IonFabButton, IonGrid, IonRow, IonCol, IonCardHeader, IonCard, IonCardTitle, IonFab, IonItem, IonList, IonLabel, IonThumbnail } from '@ionic/angular/standalone';
+import { IonContent, IonHeader, IonTitle, LoadingController, IonToolbar, IonButtons, IonButton, IonIcon, IonFabButton, IonGrid, IonRow, IonCol, IonCardHeader, IonCard, IonCardTitle, IonFab } from '@ionic/angular/standalone';
 import { Lugar } from 'src/app/models/Lugar';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
@@ -16,7 +16,7 @@ import { AgregarlugarPage } from '../agregarlugar/agregarlugar.page';
   templateUrl: './lugares.page.html',
   styleUrls: ['./lugares.page.scss'],
   standalone: true,
-  imports: [IonFab, IonFabButton, IonIcon, IonItem, IonContent, IonHeader, IonTitle, IonGrid, IonCard, IonCardHeader, IonCardTitle, IonRow, IonCol, IonToolbar, IonButtons, IonButton, CommonModule, FormsModule, IonThumbnail, IonList, IonLabel]
+  imports: [IonFab, IonFabButton, IonIcon, IonContent, IonHeader, IonTitle, IonGrid, IonCard, IonCardHeader, IonCardTitle, IonRow, IonCol, IonToolbar, IonButtons, IonButton, CommonModule, FormsModule]
 })
 export class LugaresPage implements OnInit {
 
@@ -29,8 +29,8 @@ export class LugaresPage implements OnInit {
 
   async showLoading() {
     const loading = await this.loadingCtrl.create({
-      message: 'Componente 3: Cargando...',
-      duration: 3000, 
+      message: 'Cargando de la base de datos',
+      duration: 1500, 
     });
   
     await loading.present();    

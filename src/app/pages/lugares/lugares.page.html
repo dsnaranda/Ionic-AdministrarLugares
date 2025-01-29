@@ -33,15 +33,4 @@
     </ion-fab-button>
   </ion-fab>
 
-  <h2>Componente 2 - List</h2>
-
-  <ion-list>
-    <ion-item *ngFor="let lugar of lugares" (click)="verDetalle(lugar.id)">
-      <ion-thumbnail>
-        <img [src]="lugar?.imagen" />
-      </ion-thumbnail>
-      <ion-label style="margin-left: 10px;">{{lugar.titulo}}</ion-label>
-    </ion-item>
-  </ion-list>
-
 </ion-content>

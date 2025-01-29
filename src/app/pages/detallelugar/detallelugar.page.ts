@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonAvatar, IonBreadcrumb, IonBreadcrumbs, IonChip, IonHeader, IonTitle, IonToolbar,AlertController, IonItem, IonCardTitle, IonLabel, IonFab, IonFabButton, IonIcon, IonButton, IonBackButton, IonButtons } from '@ionic/angular/standalone';
+import { IonContent, IonHeader, IonTitle, IonToolbar,AlertController, IonItem, IonCardTitle, IonLabel, IonFab, IonFabButton, IonIcon, IonButton, IonBackButton, IonButtons } from '@ionic/angular/standalone';
 import { Comentario, Lugar } from 'src/app/models/Lugar';
 import { Subscription } from 'rxjs';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
@@ -14,7 +14,7 @@ import { chatbubblesOutline, closeCircleOutline, pencilOutline, home, film   } f
   templateUrl: './detallelugar.page.html',
   styleUrls: ['./detallelugar.page.scss'],
   standalone: true,
-  imports: [IonButtons, IonBackButton, IonAvatar, IonChip, IonBreadcrumb, IonBreadcrumbs, IonButton, IonIcon, IonFabButton, IonFab, IonLabel, IonCardTitle, IonItem, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule,RouterLink]
+  imports: [IonButtons, IonBackButton, IonButton, IonIcon, IonFabButton, IonFab, IonLabel, IonCardTitle, IonItem, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule,RouterLink]
 })
 export class DetallelugarPage implements OnInit {
 

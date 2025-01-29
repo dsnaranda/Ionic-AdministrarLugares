@@ -1,13 +1,7 @@
 <ion-header>
 
   <h2> Componente 4</h2>
-  <ion-breadcrumbs>
-    <ion-breadcrumb href="/lugares">
-      <ion-icon slot="start" name="home"></ion-icon>Home</ion-breadcrumb>
-    <ion-breadcrumb href="/detalles/:id"><ion-icon slot="start" name="film"></ion-icon>
-      Detalles de id: {{lugar?.id}}</ion-breadcrumb>
-  </ion-breadcrumbs>
-
+  
   <ion-toolbar>
     <ion-title>{{ lugar?.titulo }}</ion-title>
 
@@ -44,25 +38,5 @@
       <ion-icon name="pencil-outline"></ion-icon>
     </ion-fab-button>
   </ion-fab>
-
-  <h2>Componete 1 - Avatar - Ion Chip</h2>
-
-  <ion-chip class="chip-custom">
-    <div class="chip-content">
-      <ion-avatar class="avatar-custom">
-        <img [src]="lugar?.imagen" />
-      </ion-avatar>
-      <ion-label>Comentarios sobre {{lugar?.titulo}}</ion-label>
-      <div class="comments-container">
-        <ion-item class="custom-comment-item" *ngFor="let comentario of lugar?.comentarios">
-          <ion-label>
-            <h2>{{ comentario.name }}</h2>
-            <p>{{ comentario.comentario }}</p>
-          </ion-label>
-        </ion-item>
-      </div>
-    </div>
-  </ion-chip>
-
 
 </ion-content>
