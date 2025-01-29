@@ -1,11 +1,11 @@
 export interface Comentario {
-    name: string;
-    comentario: string;
-  }
+  name: string;
+  comentario: string;
+}
 
-  export interface Lugar {
-    id: number;
-    titulo: string;
-    imagen: string;
-    comentarios: Comentario [];
-  }
+export interface Lugar {
+  id: string;
+  titulo: string;
+  imagen: string;
+  comentarios: Comentario[];
+}

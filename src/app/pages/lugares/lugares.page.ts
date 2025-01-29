@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonContent, IonHeader, IonTitle, LoadingController, IonToolbar, IonButtons, IonButton, IonIcon, IonFabButton, IonGrid, IonRow, IonCol, IonCardHeader, IonCard, IonCardTitle, IonFab } from '@ionic/angular/standalone';
@@ -10,6 +10,7 @@ import { addIcons } from 'ionicons';
 import { ModalController } from '@ionic/angular/standalone';
 import { addOutline, airplane, globe } from 'ionicons/icons';
 import { AgregarlugarPage } from '../agregarlugar/agregarlugar.page';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-lugares',
@@ -18,63 +19,89 @@ import { AgregarlugarPage } from '../agregarlugar/agregarlugar.page';
   standalone: true,
   imports: [IonFab, IonFabButton, IonIcon, IonContent, IonHeader, IonTitle, IonGrid, IonCard, IonCardHeader, IonCardTitle, IonRow, IonCol, IonToolbar, IonButtons, IonButton, CommonModule, FormsModule]
 })
-export class LugaresPage implements OnInit {
+export class LugaresPage implements OnInit, OnDestroy {
 
   lugares: Lugar[] = [];
   private lugarSubscription?: Subscription;
 
-  constructor(private router: Router, private lugaresService: LugaresService, private modalCtrl: ModalController, private loadingCtrl: LoadingController) {
+  constructor(
+    private router: Router,
+    private lugaresService: LugaresService,
+    private modalCtrl: ModalController,
+    private loadingCtrl: LoadingController
+  ) {
     addIcons({ airplane, globe, addOutline });
   }
 
   async showLoading() {
     const loading = await this.loadingCtrl.create({
       message: 'Cargando de la base de datos',
-      duration: 1500, 
+      duration: 1500,
     });
-  
-    await loading.present();    
+
+    await loading.present();
     await new Promise(resolve => setTimeout(resolve, 3000));
     await loading.dismiss();
   }
 
   ngOnInit() {
-    this.lugares = this.lugaresService.getLugares();
-    this.lugarSubscription = this.lugaresService.lugarActualizado$.subscribe((lugar: Lugar | null) => {
-      if (lugar === null) {
-        this.lugares = this.lugaresService.getLugares();  // Recargar la lista completa de lugares
-      } else {
-        const index = this.lugares.findIndex(l => l.id === lugar.id);
-        if (index !== -1) {
-          this.lugares[index] = lugar;
-        }
-      }
+    this.loadLugares(); // Llamar a la API para obtener los lugares
+  
+    this.lugarSubscription = this.lugaresService.lugarActualizado$.subscribe(() => {
+      this.loadLugares(); // Recargar lista de lugares cuando haya cambios
     });
   }
+  
+  loadLugares() {
+    this.lugaresService.getLugares().subscribe(
+      (lugares) => {
+        // Aseguramos que el tipo de lugar tenga _id de forma temporal
+        this.lugares = lugares.map((lugar: any) => {
+          // Aseguramos que podemos acceder al campo _id
+          const { _id, ...restoLugar } = lugar;
+          return {
+            ...restoLugar,
+            id: _id, // Usamos _id para asignarlo a id
+          };
+        });
+  
+        console.log("Lugares:", this.lugares);
+      },
+      (error) => {
+        console.error('Error al cargar los lugares:', error);
+      }
+    );
+  }
+  
+
   async abrirModal() {
     const modal = await this.modalCtrl.create({
       component: AgregarlugarPage
     });
 
-    modal.onDidDismiss().then((data) => {
+    modal.onDidDismiss().then(async (data) => {
       if (data.data) {
-        this.lugaresService.addLugar(data.data);
-        this.lugares = this.lugaresService.getLugares();
-        console.log(this.lugares);  // Actualizar la lista de lugares
+        try {
+          await this.lugaresService.addLugar(data.data).toPromise();
+          await this.loadLugares(); 
+        } catch (error) {
+          console.error('Error al agregar lugar:', error);
+        }
       }
     });
 
     return await modal.present();
-
   }
 
-  async verDetalle(id: number) {
+  async verDetalle(id: string) {
+    console.log('ID del lugar:', id);  
+    console.log('Lugares:', this.lugares);
     await this.showLoading();
     this.router.navigate(['/detallelugar', id]);
   }
+  
 
   ngOnDestroy() {
     this.lugarSubscription?.unsubscribe();
   }
-
 }
