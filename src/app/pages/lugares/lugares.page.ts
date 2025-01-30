@@ -23,6 +23,7 @@ export class LugaresPage implements OnInit, OnDestroy {
 
   lugares: Lugar[] = [];
   private lugarSubscription?: Subscription;
+  nombreUsuario: string = '';
 
   constructor(
     private router: Router,
@@ -40,18 +41,21 @@ export class LugaresPage implements OnInit, OnDestroy {
     });
 
     await loading.present();
-    await new Promise(resolve => setTimeout(resolve, 3000));
+    await new Promise(resolve => setTimeout(resolve, 1500));
     await loading.dismiss();
   }
 
   ngOnInit() {
-    this.loadLugares(); // Llamar a la API para obtener los lugares
-  
+    const nombre = localStorage.getItem('nombre');
+    if (nombre) {
+      this.nombreUsuario = nombre;
+    }
+    this.loadLugares();
     this.lugarSubscription = this.lugaresService.lugarActualizado$.subscribe(() => {
-      this.loadLugares(); // Recargar lista de lugares cuando haya cambios
+      this.loadLugares();
     });
   }
-  
+
   loadLugares() {
     this.lugaresService.getLugares().subscribe(
       (lugares) => {
@@ -64,7 +68,7 @@ export class LugaresPage implements OnInit, OnDestroy {
             id: _id, // Usamos _id para asignarlo a id
           };
         });
-  
+
         console.log("Lugares:", this.lugares);
       },
       (error) => {
@@ -72,7 +76,7 @@ export class LugaresPage implements OnInit, OnDestroy {
       }
     );
   }
-  
+
 
   async abrirModal() {
     const modal = await this.modalCtrl.create({
@@ -83,7 +87,7 @@ export class LugaresPage implements OnInit, OnDestroy {
       if (data.data) {
         try {
           await this.lugaresService.addLugar(data.data).toPromise();
-          await this.loadLugares(); 
+          await this.loadLugares();
         } catch (error) {
           console.error('Error al agregar lugar:', error);
         }
@@ -94,14 +98,22 @@ export class LugaresPage implements OnInit, OnDestroy {
   }
 
   async verDetalle(id: string) {
-    console.log('ID del lugar:', id);  
+    console.log('ID del lugar:', id);
     console.log('Lugares:', this.lugares);
     await this.showLoading();
     this.router.navigate(['/detallelugar', id]);
   }
-  
+
 
   ngOnDestroy() {
     this.lugarSubscription?.unsubscribe();
   }
+
+
+  logout() {
+    localStorage.removeItem('token');
+    localStorage.removeItem('nombre'); 
+    this.router.navigate(['/login']);
+  }
+  
 }

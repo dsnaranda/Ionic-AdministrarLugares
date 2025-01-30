@@ -7,7 +7,7 @@
     </ion-buttons>
     <ion-title>Lugares</ion-title>
     <ion-buttons slot="end">
-      <ion-button>
+      <ion-button (click)="logout()">
         <ion-icon name="globe"></ion-icon>
       </ion-button>
     </ion-buttons>
@@ -15,6 +15,11 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
+
+  <div *ngIf="nombreUsuario">
+    <h1 style="margin-left: 20px;">Bienvenido, {{ nombreUsuario }}!</h1>
+  </div>
+
   <ion-grid>
     <ion-row>
       <ion-col size="6" *ngFor="let lugar of lugares" (click)="verDetalle(lugar.id)">

@@ -1,19 +1,19 @@
 import { Injectable } from '@angular/core';
 import { Comentario, Lugar } from '../models/Lugar';
-import { Observable, Subject } from 'rxjs';
-import { HttpClient } from '@angular/common/http'; // Importar correctamente HttpClient
+import { Observable, Subject, tap } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LugaresService {
 
-  private apiUrl = 'http://localhost:3800/api';  // Cambia esto según tu API
+  private apiUrl = 'http://localhost:3800/api';  
 
   private lugarActualizado = new Subject<Lugar | null>();
   lugarActualizado$ = this.lugarActualizado.asObservable();
 
-  constructor(private http: HttpClient) {} 
+  constructor(private http: HttpClient) { }
 
   getLugares(): Observable<Lugar[]> {
     return this.http.get<Lugar[]>(`${this.apiUrl}/lugares`);
@@ -42,4 +42,19 @@ export class LugaresService {
   deleteComentario(lugarId: string, comentarioIndex: number): Observable<Lugar> {
     return this.http.delete<Lugar>(`${this.apiUrl}/lugar/${lugarId}/comentarios/${comentarioIndex}`);
   }
+
+  loginUsuario(correo: string, password: string) {
+    return this.http.post<any>('http://localhost:3800/api/login', { correo, password })
+      .pipe(
+        tap(response => {
+          if (response && response.usuario) {
+            // Almacena tanto el token como el nombre
+            localStorage.setItem('token', response.usuario._id); // Usamos _id o token
+            localStorage.setItem('nombre', response.usuario.nombre); // Almacena el nombre
+          }
+        })
+      );
+  }
+  
+  
 }
